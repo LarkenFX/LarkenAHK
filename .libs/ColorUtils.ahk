@@ -38,6 +38,9 @@ findInvImage(imageName){
 	ImageSearch, ix, iy, %bagX%, %bagY%, %bagX2%, %bagY2%, *20 %imagePath%
 	if (ErrorLevel = 0) {
 		clickPos(ix, iy)
+		return true
+	}else{
+		return false
 	}
 }
 
@@ -52,7 +55,10 @@ findGameImage(imageName){
 	ImageSearch, ix, iy, 5, 30, %gameBoxX%, %gameBoxY%, *20 %imagePath%
 	if (ErrorLevel = 0) {
 		clickPos(ix, iy)
-	}	
+		return true
+	}else{
+		return false
+	}
 }
 
 findMapImage(imageName){
