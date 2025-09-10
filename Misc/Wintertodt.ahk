@@ -50,7 +50,6 @@ main() {
 		invCheck()
 		statusCheck()
 		if (knife == 0){
-            log("No Knife Logic used...")
 			if (wtDead == 0 && kindle == 1 && idle == 1){
 				;brazier
                 waitForColor(brazier)
@@ -83,7 +82,6 @@ main() {
 			}
 		}
 		if (knife == 1){
-            log("Knife Logic Used!")
 			if (wtDead == 0 && logs == 0 && kindle == 0 && idle == 1){
 				;chop
                 waitForColor(roots)
