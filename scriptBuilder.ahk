@@ -17,6 +17,10 @@ CoordMode, ToolTip, Client
 CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
+; === Script Guide ===
+; LarkenAHK's Max Cape Karambwan Fishing Script.
+; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
+
 ; === Hotkeys ===
 ^p::Pause, Toggle         ; Ctrl+P = Pause
 ^q::saveMousePos("Q")     ; Ctrl+Q = Save mouse position (mPos["Q"].x,mPos["Q"].y)
