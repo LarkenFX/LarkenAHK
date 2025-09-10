@@ -27,6 +27,8 @@ CoordMode, Mouse, Client
 main() {
     setUpClient()
     Sleep, 1000
+    bagX := 1074
+    bagY := 568
     Loop {
         ToolTip, TEMPLATE SCRIPT RUNNING..., 0, 5, 1
 

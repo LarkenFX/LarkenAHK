@@ -7,6 +7,13 @@ colorExists(hexCode) {
     return (ErrorLevel == 0)
 }
 
+checkInfobox(hexCode, X := 135, Y := 70){
+	global posX, posY
+	focusClient()
+	PixelSearch, posX, posY, 5, 30, %X%, %Y%, %hexCode%, 1, Fast RGB
+	return (ErrorLevel == 0)
+}
+
 waitForColor(hexCode) {
     global posX, posY, gameBoxX, gameBoxY
     loop {
@@ -79,8 +86,17 @@ checkInvFull(hexCode){
 	bagX2 := gameBoxX + 210
 	bagY2 := gameBoxY - 15
     focusClient()
-	PixelSearch, PosX, PosY, %bagX1%, %bagY1%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
+	PixelSearch, posX, posY, %bagX1%, %bagY1%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
 	invFull := (ErrorLevel == 0) ? 1 : 0
+}
+
+searchInv(hexCode){
+	global posX, posY
+	bagX2 := gameBoxX + 210
+	bagY2 := gameBoxY - 15
+	focusClient()
+	PixelSearch, posX, posY, %bagX%, %bagY%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
+	return !ErrorLevel
 }
 
 radSearch(hexCode, centerX := 640, centerY := 440, maxRadius := 400, step := 10, angleStep := 20) {
