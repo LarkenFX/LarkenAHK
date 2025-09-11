@@ -19,7 +19,7 @@ CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
 ; === Script Guide ===
-; LarkenAHK's Max Cape Karambwan Fishing Script.
+; LarkenAHK's Glassblowing Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
 
 ; === Hotkeys ===
@@ -34,8 +34,26 @@ main() {
     Sleep, 1000
     bagX := 1074
     bagY := 568
+    global bank := 0x485DFF
+    global tradeWindow := 0xFF981F
     Loop {
         ToolTip, TEMPLATE SCRIPT RUNNING..., 0, 5, 1
-
+        waitForColor(bank)
+        clickPos(posX, posY)
+        waitForColor(tradeWindow)
+        findGameImage("deposit")
+        clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
+        delay()
+        Send, {Esc}
+        findInvImage("pipe")
+        findInvImage("glass")
+        while(!existsGameImage("craftMenu")){
+            delay()
+        }
+        delay()
+        Send, {Space}
+        while(existsInvImage("glass")){
+            delay()
+        }
     }
 }

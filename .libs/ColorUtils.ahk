@@ -43,7 +43,23 @@ findInvImage(imageName){
 		return false
 	}
 }
-
+existsInvImage(imageName){
+	global ix, iy, bagX, bagY
+	focusClient()
+	imagePath := A_ScriptDir . "\images\" . imageName . ".png"
+	if !FileExist(imagePath) {
+		log("Missing image: " . imagePath)
+		return
+	}
+	bagX2 := bagX + 167
+	bagY2 := bagY + 250
+	ImageSearch, ix, iy, %bagX%, %bagY%, %bagX2%, %bagY2%, *20 %imagePath%
+	if (ErrorLevel = 0) {
+		return true
+	}else{
+		return false
+	}
+}
 findGameImage(imageName){
 	global ix, iy, gameBoxX, gameBoxY
 	focusClient()
@@ -55,6 +71,21 @@ findGameImage(imageName){
 	ImageSearch, ix, iy, 5, 30, %gameBoxX%, %gameBoxY%, *20 %imagePath%
 	if (ErrorLevel = 0) {
 		clickPos(ix, iy)
+		return true
+	}else{
+		return false
+	}
+}
+existsGameImage(imageName){
+	global ix, iy, gameBoxX, gameBoxY
+	focusClient()
+	imagePath := A_ScriptDir . "\images\" . imageName . ".png"
+	if !FileExist(imagePath) {
+		log("Missing image: " . imagePath)
+		return
+	}
+	ImageSearch, ix, iy, 5, 30, %gameBoxX%, %gameBoxY%, *20 %imagePath%
+	if (ErrorLevel = 0) {
 		return true
 	}else{
 		return false

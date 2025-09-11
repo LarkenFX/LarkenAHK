@@ -19,7 +19,7 @@ CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
 ; === Script Guide ===
-; LarkenAHK's Max Cape Karambwan Fishing Script.
+; LarkenAHK's Chop & Firemake Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
 
 ; === Hotkeys ===
@@ -34,8 +34,34 @@ main() {
     Sleep, 1000
     bagX := 1074
     bagY := 568
+    global tree := 0x485DFF
+    global logs := 0xFF0000
+    global startTile := 0xF25999
     Loop {
-        ToolTip, TEMPLATE SCRIPT RUNNING..., 0, 5, 1
-
+        Loop {
+            isCutting := checkInfobox(0x00FF00) ; Green = currently cutting
+            checkInvFull(logs)                ; 
+            if (!isCutting && !invFull) {
+                log("Not cutting & inventory not full")
+                waitForColor(tree)
+                clickPos(posX, posY)
+                delay(9000,12100)
+            }
+            if (invFull) {
+                break
+            }
+            delay()
+        }
+        log("Inventory full")
+        waitForColor(0xF25999)
+        clickPos(posX, posY)
+        delay(5000,7000)
+        findInvImage("tinderbox")
+        while(searchInv(logs)){
+            searchInv(logs)
+            clickPos(posX, posY)
+            findInvImage("tinderbox")
+            waitForColor(0x7D00FF)
+        }
     }
 }
