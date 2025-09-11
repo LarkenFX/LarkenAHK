@@ -7,7 +7,7 @@ SetWorkingDir %A_ScriptDir%
 #Include %A_ScriptDir%\..\.libs\ColorUtils.ahk
 #Include %A_ScriptDir%\..\.libs\MouseUtils.ahk
 #Include %A_ScriptDir%\..\.libs\Logging.ahk
-initLog("miningLog.txt")
+initLog("cookLog.txt")
 
 ; === Global Variables ===
 global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull
@@ -19,7 +19,7 @@ CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
 ; === Script Guide ===
-; LarkenAHK's Amethyst Mining Script.
+; LarkenAHK's Hosidius Cooking Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
 
 ; === Hotkeys ===
@@ -31,48 +31,26 @@ CoordMode, Mouse, Client
 ; === Main Script ===
 main() {
     setUpClient()
+    Sleep, 1000
     bagX := 1074
     bagY := 568
-    global ameth := 0x00FFDD
-    global gems := 0xFF0000
-    global rocks := 0xF25999
-    global counter
-    Sleep, 1000
-    counter := 0
+    global stove := 0xF25999
+    global bank := 0x485DFF
+    global tradeWindow := 0xFF981F
     Loop {
-        Loop {
-            isMining := checkInfobox(0x00FF00) ; Green = currently mining
-            checkInvFull(ameth)                ; 
-            if (!isMining && !invFull) {
-                log("Not mining & inventory not full")
-                cleanInventory()
-                waitForColor(rocks)
-                clickPos(posX, posY)
-                Sleep, 3000
-            }
-            if (invFull) {
-                break
-            }
+        waitForColor(bank)
+        clickPos(posX, posY)
+        waitForColor(tradeWindow)
+        findGameImage("deposit")
+        clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
+        waitForColor(stove)
+        clickPos(posX, posY)
+        while(!findGameImage("cookMenu")){
             delay()
         }
-        counter += 26
-        log("Inventory full - mined " . counter . " so far.")
-        findInvImage("chisel")
-        searchInv(ameth)
-        clickPos(posX, posY)
-        delay(800,1200)
         Send, {Space}
-        while(searchInv(ameth)){
+        while(searchInv(0x00FFDD)){
             delay()
         }
-    }
-}
-
-cleanInventory() {
-    global gems
-    log("Checking for gems to drop...")
-    while(searchInv(gems)){
-        clickPos(posX, posY)
-        delay(600, 800)
     }
 }
