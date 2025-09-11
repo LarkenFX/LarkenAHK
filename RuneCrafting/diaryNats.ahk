@@ -28,7 +28,7 @@ main() {
     setUpClient()
     Sleep, 1000
     global bank := 0x485DFF
-    global ladder := 0x0000FF
+    global ladder := 0x7D00FF
     global rocks := 0xFF00FF
     global ruinsTile := 0xC74949
     global altarTile := 0xF25999
