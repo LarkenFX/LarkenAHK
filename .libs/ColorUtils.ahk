@@ -135,7 +135,45 @@ searchInv(hexCode){
 	PixelSearch, posX, posY, %bagX%, %bagY%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
 	return !ErrorLevel
 }
-
+dropAll(hexCode) {
+    ; Inventory position and slot size
+    startX := 1074
+    startY := 568
+    slotW := 42
+    slotH := 36
+    cols := 4
+    rows := 7
+    ; Slight row shuffle (example: 0 2 1 3 5 4 6)
+    rowOrder := shuffleRows()
+    focusClient()
+    for i, row in rowOrder {
+        Loop, %cols% {
+            col := A_Index - 1
+            x := startX + col * slotW + slotW // 2
+            y := startY + row * slotH + slotH // 2
+            ; Detect red item in slot
+            PixelSearch, px, py, x - 6, y - 6, x + 6, y + 6, %hexCode%, 5, Fast RGB
+            if (ErrorLevel == 0) {
+                MouseMoveL(px + 5, py + 5, 10, 2)
+                Click
+                Sleep, 110  ; mimic human timing
+            }
+        }
+    }
+}
+shuffleRows() {
+    base := [0, 1, 2, 3, 4, 5, 6]
+    Random, swaps, 1, 3  ; how many small swaps to make
+    Loop, %swaps% {
+        Random, i, 0, 5  ; pick a position
+        j := i + 1
+        ; Swap i and i+1
+        temp := base[i + 1]
+        base[i + 1] := base[j + 1]
+        base[j + 1] := temp
+    }
+    return base
+}
 radSearch(hexCode, centerX := 640, centerY := 440, maxRadius := 400, step := 10, angleStep := 20) {
 	global posX, posY, gameBoxX, gameBoxY
 	focusClient()
