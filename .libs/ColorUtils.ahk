@@ -28,7 +28,7 @@ waitForColor(hexCode) {
 findInvImage(imageName){
 	global ix, iy, bagX, bagY
 	focusClient()
-	imagePath := A_ScriptDir . "\...\.images\" . imageName . ".png"
+	imagePath := A_ScriptDir . "\..\.images\" . imageName . ".png"
 	if !FileExist(imagePath) {
 		log("Missing image: " . imagePath)
 		return
@@ -46,7 +46,7 @@ findInvImage(imageName){
 existsInvImage(imageName){
 	global ix, iy, bagX, bagY
 	focusClient()
-	imagePath := A_ScriptDir . "\...\.images\" . imageName . ".png"
+	imagePath := A_ScriptDir . "\..\.images\" . imageName . ".png"
 	if !FileExist(imagePath) {
 		log("Missing image: " . imagePath)
 		return
@@ -63,7 +63,7 @@ existsInvImage(imageName){
 findGameImage(imageName){
 	global ix, iy, gameBoxX, gameBoxY
 	focusClient()
-	imagePath := A_ScriptDir . "\...\.images\" . imageName . ".png"
+	imagePath := A_ScriptDir . "\..\.images\" . imageName . ".png"
 	if !FileExist(imagePath) {
 		log("Missing image: " . imagePath)
 		return
@@ -79,7 +79,7 @@ findGameImage(imageName){
 existsGameImage(imageName){
 	global ix, iy, gameBoxX, gameBoxY
 	focusClient()
-	imagePath := A_ScriptDir . "\...\.images\" . imageName . ".png"
+	imagePath := A_ScriptDir . "\..\.images\" . imageName . ".png"
 	if !FileExist(imagePath) {
 		log("Missing image: " . imagePath)
 		return
@@ -95,7 +95,7 @@ existsGameImage(imageName){
 findMapImage(imageName){
 	global ix, iy, gameBoxX, gameBoxY
 	focusClient()
-	imagePath := A_ScriptDir . "\...\.images\" . imageName . ".png"
+	imagePath := A_ScriptDir . "\..\.images\" . imageName . ".png"
 	if !FileExist(imagePath) {
 		log("Missing image: " . imagePath)
 		return false
