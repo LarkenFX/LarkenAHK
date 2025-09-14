@@ -10,7 +10,7 @@ SetWorkingDir %A_ScriptDir%
 initLog("CranesLog.txt")    ; initialize log file
 
 ; === Global Variables ===
-global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull
+global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull, ix, iy
 
 ; === Coordinate Modes ===
 SendMode, Input
@@ -48,6 +48,7 @@ main() {
             delay()
             razTry++
             if (razTry > 20){
+                relogCheck()
                 waitForColor(gateColor)
                 log("=== GATE FAILED ===", "ERROR")
                 clickPos(posX, posY, 1, 1)
@@ -65,10 +66,10 @@ main() {
         ; wait for door to open
         razTry := 0
         while (colorExists(razDoor)){
-            ToolTip, waiting for raz door to open %razTry% , 0, 0, 1
             delay()
             razTry++
             if (razTry > 20){
+                relogCheck()
                 log("=== FAILED TO OPEN RAZ DOOR ===", "ERROR")
                 colorExists(razDoor)
                 clickPos(posX, posY)
@@ -86,14 +87,17 @@ main() {
         checkInvFull(planks)
         while (invFull == 0){
             razTry := 0
-            waitForColor(0x7D00FF)
+            while (!colorExists(0x7D00FF)){
+                delay()
+                relogCheck()
+            }
             clickPos(posX, posY, 2, 2)
             ; wait for raz to transform, if doesnt in 5 waits, click raz again
             while (colorExists(0x7D00FF)){
-                ToolTip, waiting for raz to be human %razTry%..., 0, 0, 1
                 delay()
                 razTry++
                 if (razTry > 5){
+                    relogCheck()
                     waitForColor(0x7D00FF)
                     log("Retry Humanize...", "RETRY")
                     clickPos(posX, posY, 2, 2)
@@ -110,6 +114,7 @@ main() {
                 delay()
                 razTry++
                 if (razTry > 5){
+                    relogCheck()
                     waitForColor(gateColor)
                     log("Retry Trade...", "RETRY")
                     clickPos(posX, posY, 2, 2)
@@ -157,6 +162,7 @@ main() {
                     Sleep, 100
                     xpWaiter++
                     if (xpWaiter > 330){
+                        relogCheck()
                         colorExists(0xF25999)
                         clickPos(posX, posY)
                         log("XP Drop took too long, retrying...", "RETRY")
@@ -175,7 +181,10 @@ main() {
             } else {
                 Send, {Right}
                 log("No repairable Cranes, hopping...")
-                waitForColor(0xF25999)
+                while(!colorExists(0xF25999)){
+                    delay()
+                    relogCheck()
+                }
             }
         }
         log("Finished 17 repairs, restocking planks.", "SUCCESS")

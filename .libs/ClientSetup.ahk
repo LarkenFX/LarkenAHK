@@ -21,3 +21,13 @@ focusClient() {
     WinRestore, %Title%
     WinActivate, %Title%
 }
+
+relogCheck() {
+    if existsGameImage("playNow"){
+        clickPos(ix, iy)
+        while (!existsGameImage("clickHere")){
+            delay(4000,10000)
+        }
+        findGameImage("clickHere")
+    }
+}
