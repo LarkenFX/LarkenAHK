@@ -90,7 +90,10 @@ main() {
             while (!colorExists(0x7D00FF)){
                 delay()
                 relogCheck()
+                log("relog checked.")
+                delay()
             }
+            log("afflicted Raz is detected...")
             clickPos(posX, posY, 2, 2)
             ; wait for raz to transform, if doesnt in 5 waits, click raz again
             while (colorExists(0x7D00FF)){
@@ -115,6 +118,7 @@ main() {
                 razTry++
                 if (razTry > 5){
                     relogCheck()
+        
                     waitForColor(gateColor)
                     log("Retry Trade...", "RETRY")
                     clickPos(posX, posY, 2, 2)
@@ -163,6 +167,7 @@ main() {
                     xpWaiter++
                     if (xpWaiter > 330){
                         relogCheck()
+                        delay()
                         colorExists(0xF25999)
                         clickPos(posX, posY)
                         log("XP Drop took too long, retrying...", "RETRY")
@@ -184,6 +189,7 @@ main() {
                 while(!colorExists(0xF25999)){
                     delay()
                     relogCheck()
+                    delay()
                 }
             }
         }
