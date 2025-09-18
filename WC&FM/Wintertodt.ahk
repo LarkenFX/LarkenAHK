@@ -24,6 +24,8 @@ CoordMode, Mouse, Client
 ; -Check below in main() to ensure colors ingame are correct.
 ; -Have the XP tracker sidebar open before pressing SHIFT+1.
 ; -Camera facing SOUTHWEST seems best, make sure you can see vials box from brazier.
+; CLOSE YOUR CHATBOX
+
 
 ; === Hotkeys ===
 ^p::Pause, Toggle         ; Ctrl+P = Pause
