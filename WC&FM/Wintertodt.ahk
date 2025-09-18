@@ -7,10 +7,10 @@ SetWorkingDir %A_ScriptDir%
 #Include %A_ScriptDir%\..\.libs\ColorUtils.ahk
 #Include %A_ScriptDir%\..\.libs\MouseUtils.ahk
 #Include %A_ScriptDir%\..\.libs\Logging.ahk
-initLog("todtLog.txt")
+initLog()
 
 ; === Global Variables ===
-global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull
+global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull, knife
 
 ; === Coordinate Modes ===
 SendMode, Input
@@ -136,7 +136,8 @@ hpCheck(){
 	checkInfobox(0x007462, 108, 85)
 	if (ErrorLevel == 0){
 		ToolTip, HEALING!, 0, 5, 1
-		findInvImage("potion")
+		searchInv(0x00FF00)
+		clickPos(posX, posY)
         log("Drank Potion", "SUCCESS")
         delay()
 	}
@@ -213,7 +214,7 @@ restock(){
 knifeCheck(imageName){
 	global ix, iy, bagX, bagY, knife
 	focusClient()
-	imagePath := A_ScriptDir . "\images\" . imageName . ".png"
+	imagePath := A_ScriptDir . "\..\.images\" . imageName . ".png"
 	if !FileExist(imagePath) {
 		log("Missing image: " . imagePath)
 		return

@@ -99,3 +99,10 @@ clickPos(x, y, offsetX := 3, offsetY := 5) {
     MouseMoveSigmoid(x1, y1, x2, y2, randSteps, 0, randK) ; duration = 0 → auto-scale
     Click
 }
+
+fastClick(x, y, offsetX := 4, offsetY := 4) {
+    focusClient()
+    MouseMove, x + offsetX, y + offsetY, 8
+    delay(10,20)
+    Click
+}

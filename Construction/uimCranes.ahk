@@ -7,7 +7,7 @@ SetWorkingDir %A_ScriptDir%
 #Include %A_ScriptDir%\..\.libs\ColorUtils.ahk
 #Include %A_ScriptDir%\..\.libs\MouseUtils.ahk
 #Include %A_ScriptDir%\..\.libs\Logging.ahk
-initLog("CranesLog.txt")    ; initialize log file
+initLog()    ; initialize log file
 
 ; === Global Variables ===
 global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull, ix, iy
@@ -90,7 +90,7 @@ main() {
             while (!colorExists(0x7D00FF)){
                 delay()
                 relogCheck()
-                log("relog checked.")
+                log("Raz Relog Checked.")
                 delay()
             }
             log("afflicted Raz is detected...")
@@ -189,6 +189,7 @@ main() {
                 while(!colorExists(0xF25999)){
                     delay()
                     relogCheck()
+                    log("Crane Relog Check passed.")
                     delay()
                 }
             }

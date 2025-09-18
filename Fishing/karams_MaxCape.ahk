@@ -7,7 +7,7 @@ SetWorkingDir %A_ScriptDir%
 #Include %A_ScriptDir%\..\.libs\ColorUtils.ahk
 #Include %A_ScriptDir%\..\.libs\MouseUtils.ahk
 #Include %A_ScriptDir%\..\.libs\Logging.ahk
-initLog("fishingLog.txt")    ; initialize log file
+initLog()    ; initialize log file
 
 ; === Global Variables ===
 global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull

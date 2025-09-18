@@ -23,6 +23,7 @@ focusClient() {
 }
 
 relogCheck() {
+    global ix, iy
     if existsGameImage("playNow"){
         clickPos(ix, iy)
         while (!existsGameImage("clickHere")){

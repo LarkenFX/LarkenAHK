@@ -1,7 +1,0 @@
-==== Script started at 2025-09-12 11:14 PM ====
-[2025-09-12 11:16 PM] [] inv full
-[2025-09-12 11:16 PM] [] Started cooking 1
-[2025-09-12 11:16 PM] [] checking info box
-[2025-09-12 11:16 PM] [] am i cooking? 0 yes 1 no 
-[2025-09-12 11:16 PM] [] first batch cooked any raws left?
-[2025-09-12 11:16 PM] [] Started cook #2

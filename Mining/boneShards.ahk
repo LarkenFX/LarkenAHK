@@ -7,7 +7,7 @@ SetWorkingDir %A_ScriptDir%
 #Include %A_ScriptDir%\..\.libs\ColorUtils.ahk
 #Include %A_ScriptDir%\..\.libs\MouseUtils.ahk
 #Include %A_ScriptDir%\..\.libs\Logging.ahk
-initLog("miningLog.txt")
+initLog()
 
 ; === Global Variables ===
 global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull
@@ -19,7 +19,7 @@ CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
 ; === Script Guide ===
-; LarkenAHK's Amethyst Mining Script.
+; LarkenAHK's Bone Shard Mining Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
 
 ; === Hotkeys ===
