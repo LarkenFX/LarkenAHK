@@ -212,11 +212,11 @@ restock(){
 	delay(2000,3000)
 	while searchInv(0x00FFDD){
 		delay(50,100)
-		Send, {Space Down}
+		Send, {Shift Down}
 		delay(50,100)
 		clickPos(posX, posY)
 		delay()
-		Send, {Space Up}
+		Send, {Shift Up}
 	}
     log("restock completed", "SUCCESS")
 }
