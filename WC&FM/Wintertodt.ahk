@@ -209,7 +209,15 @@ restock(){
 	clickPos(posX, posY)	;Click herb to mix
 	searchInv(0x7D00FF)
     clickPos(posX, posY)	;mix with vial
-	delay()
+	delay(2000,3000)
+	while searchInv(0x00FFDD){
+		delay(50,100)
+		Send, {Space Down}
+		delay(50,100)
+		clickPos(posX, posY)
+		delay()
+		Send, {Space Up}
+	}
     log("restock completed", "SUCCESS")
 }
 
