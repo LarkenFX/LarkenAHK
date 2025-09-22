@@ -21,6 +21,8 @@ CoordMode, Mouse, Client
 ; === Script Guide ===
 ; LarkenAHK's Hosidius Cooking Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
+; inventory tag raw food to 00FFDD & CTRL+Q raw food in bank
+; While bank interface is open, angle camera to see range
 
 ; === Hotkeys ===
 ^p::Pause, Toggle         ; Ctrl+P = Pause
@@ -40,15 +42,21 @@ main() {
     Loop {
         waitForColor(bank)
         clickPos(posX, posY)
+        log("clicked bank")
+        log("waiting for bank interface")
         waitForColor(tradeWindow)
         findGameImage("deposit")
+        log("assume deposit found")
         clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
+        log("clicked raw food")
         waitForColor(stove)
         clickPos(posX, posY)
-        while(!findGameImage("cookMenu")){
+        log("clicked range")
+        while(!existsGameImage("cookMenu")){
             delay()
         }
         Send, {Space}
+        log("Cooking, waiting...")
         while(searchInv(0x00FFDD)){
             delay()
         }
