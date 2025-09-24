@@ -51,8 +51,16 @@ main() {
             delay()
             waitForColor(fire)
             clickPos(posX, posY)
+            fireTry := 0
             while (!existsGameImage("cookMenu")){
                 delay()
+                fireTry++
+                if (fireTry > 20){
+                    waitForColor(fire)
+                    log("=== FIRE FAILED ===", "ERROR")
+                    clickPos(posX, posY, 1, 1)
+                    fireTry := 0
+            }
             }
             Send, {Space}
             log("Started cooking 1")
@@ -69,8 +77,15 @@ main() {
                 log("searched. " . ErrorLevel . )
                 waitForColor(fire)
                 clickPos(posX, posY)
+                fireTry := 0
                 while (!existsGameImage("cookMenu")){
                     delay()
+                    fireTry++
+                    if (fireTry > 20){
+                        waitForColor(fire)
+                        log("=== FIRE FAILED ===", "ERROR")
+                        clickPos(posX, posY, 1, 1)
+                        fireTry := 0
                 }
                 log("Started cook #2")
                 delay()
