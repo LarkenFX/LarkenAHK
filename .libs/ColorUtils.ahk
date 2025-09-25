@@ -136,6 +136,7 @@ searchInv(hexCode){
 	return !ErrorLevel
 }
 dropAll(hexCode) {
+	global StartX, StartY, slotW, slotH, cols, rows
     ; Inventory position and slot size
     startX := 1074
     startY := 568
@@ -197,4 +198,53 @@ radSearch(hexCode, centerX := 640, centerY := 440, maxRadius := 400, step := 10,
 		}
 	}
 	return false
+}
+
+clickMiddle(hexCode) {
+    global gameBoxX, gameBoxY
+    focusClient()
+    ; === TOP (find top Y)
+    PixelSearch, _, topY, 5, 30, gameBoxX, gameBoxY, hexCode, 1, Fast RGB
+    if (ErrorLevel){
+        waitForColor(hexCode)
+		clickPos(posX, posY)
+		return false
+	}
+    ; === BOTTOM (find bottom Y)
+    PixelSearch, _, bottomY, 5, gameBoxY, gameBoxX, 30, hexCode, 1, Fast RGB
+    if (ErrorLevel){
+        waitForColor(hexCode)
+		clickPos(posX, posY)
+		return false
+	}
+    ; === LEFT (find left X)
+    PixelSearch, leftX, _, 5, 30, gameBoxX, gameBoxY, hexCode, 1, Fast RGB
+    if (ErrorLevel){
+        waitForColor(hexCode)
+		clickPos(posX, posY)
+		return false
+	}
+    ; === RIGHT (find right X)
+    PixelSearch, rightX, _, gameBoxX, 30, 5, gameBoxY, hexCode, 1, Fast RGB
+    if (ErrorLevel){
+        waitForColor(hexCode)
+		clickPos(posX, posY)
+		return false
+	}
+    ; === CENTER ===
+    centerX := (leftX + rightX) // 2
+    centerY := (topY + bottomY) // 2
+    MouseMoveL(centerX, centerY)
+    delay(100, 150)
+    ; === VERIFY COLOR BEFORE CLICK ===
+    MouseGetPos, x, y
+    PixelGetColor, hoveredColor, x, y, RGB
+    hoveredColor := hoveredColor & 0xFFFFFF  ; Strip alpha if present
+    if (hoveredColor == hexCode) {
+        Click
+        return true
+    }else{
+		waitForColor(hexCode)
+		clickPos(posX, posY)
+	}
 }

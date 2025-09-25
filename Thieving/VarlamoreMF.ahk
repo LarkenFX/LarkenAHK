@@ -20,7 +20,12 @@ CoordMode, Mouse, Client
 
 ; === Script Guide ===
 ; LarkenAHK's Varlamore Master Farmers Script.
-; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
+; -Use the provided RuneLite profile
+; Set game size to 1270x830 in RuneLite plugin + XP tracker open, REQUIRED.
+; https://www.youtube.com/watch?v=Z4rPTQNW5kQ
+; The above setup is the only Master Farmer in the game that works!
+; Inventory tag all trash seeds > FF00FFDD
+; Zoom in and angle camera so you dont get in the way of the blue box
 
 ; === Hotkeys ===
 ^p::Pause, Toggle         ; Ctrl+P = Pause
@@ -34,8 +39,26 @@ main() {
     Sleep, 1000
     bagX := 1074
     bagY := 568
-    Loop {
-        ToolTip, TEMPLATE SCRIPT RUNNING..., 0, 5, 1
-
+    farmer := 0x0000FF
+    garbage := 0x00FFDD
+    while (colorExists(farmer)) {
+        ppSuccess := 0
+        Random, ppDrop, 10, 25
+        while (colorExists(farmer)){
+            clickMiddle(farmer)
+            ppSuccess++
+            while (!colorExists(0x7D00FF)){
+                delay(20,50)
+            }
+            if (ppSuccess > ppDrop){
+                Send, {Shift Down}
+                delay(50,100)
+                dropAll(garbage)
+                Send, {Shift Up}
+                delay(50,100)
+                break
+            }
+        }
     }
+    ExitApp
 }
