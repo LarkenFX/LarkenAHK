@@ -49,16 +49,14 @@ main() {
         if (invFull){
             log("inv full")
             delay()
-            waitForColor(fire)
-            clickPos(posX, posY)
+            clickMiddle(fire)
             fireTry := 0
             while (!existsGameImage("cookMenu")){
                 delay()
                 fireTry++
                 if (fireTry > 30){
-                    waitForColor(fire)
+                    clickMiddle(fire)
                     log("=== FIRE FAILED ===", "ERROR")
-                    clickPos(posX, posY, 1, 1)
                     fireTry := 0
             }
             }
@@ -75,17 +73,16 @@ main() {
             log("first batch cooked any raws left?")
             if (searchInv(rawFish)){
                 log("searched. " . ErrorLevel . )
-                waitForColor(fire)
-                clickPos(posX, posY)
+                clickMiddle(fire)
                 fireTry := 0
                 while (!existsGameImage("cookMenu")){
                     delay()
                     fireTry++
                     if (fireTry > 30){
-                        waitForColor(fire)
+                        clickMiddle(fire)
                         log("=== FIRE FAILED ===", "ERROR")
-                        clickPos(posX, posY, 1, 1)
                         fireTry := 0
+                    }
                 }
                 log("Started cook #2")
                 delay()
