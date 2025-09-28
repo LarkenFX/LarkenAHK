@@ -1,14 +1,25 @@
-; -- Global Variables --
-global posX, posY, gameBoxX, gameBoxY, Title
-global qxPos, qyPos
-
+#NoEnv
+#Warn
 SetWorkingDir %A_ScriptDir%
+
+; === Include shared libs ===
+#Include %A_ScriptDir%\..\.libs\ClientSetup.ahk
+#Include %A_ScriptDir%\..\.libs\ColorUtils.ahk
+#Include %A_ScriptDir%\..\.libs\MouseUtils.ahk
+#Include %A_ScriptDir%\..\.libs\Logging.ahk
+initLog()
+
+; === Global Variables ===
+global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull
+
+; === Coordinate Modes ===
+SendMode, Input
 CoordMode, ToolTip, Client
 CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
 ^p::Pause, Toggle 	; Ctrl+P to pause
-^q::savePosQ()
+^q::saveMousePos("Q")     ; Ctrl+Q = Save mouse position (mPos["Q"].x,mPos["Q"].y)
 +1::crabFight()		; SHIFT+# to start script
 
 ;		=== Setup ===
@@ -21,80 +32,35 @@ crabFight(){
 	startUp()
 	setUpClient()
 	sleep, 1000
+	tunnel := 0x00FFDD
+	crab := 0xFF00FF
+	fightTile := 0x0000FF
 	loop{
-		waitForColor(0xFF00FF)
-		waitForColor(0x0000FF)
-		foundPOS()
-		while(colorExists(0xFF00FF)){
+		while (!colorExists(crab)){
+			delay()
+		}
+		waitForColor(fightTile)
+		clickMiddle(fightTile)
+		while(colorExists(crab)){
 			ToolTip, Fighting Crab..., 0, 5, 1
 			Sleep, 30000
 		}
 		ToolTip, Crab is dead..., 0, 5, 1
 		;=== if using Dragon Battleaxe specs ===
-		if (qxPos > 0){
-			Click, %qxPos%, %qyPos%
+		if (mPos["Q"].x > 0){
+			clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
 			delay()
-			imagePath := A_ScriptDir . "\images\specOrb.png"
-			ImageSearch, cx, cy, 1110, 158, 1155, 208, *20 %imagePath%
-			if (ErrorLevel == 0){
-				Click, %cx%, %cy%
-			}
+			findMapImage("specOrb")
 			delay()
-			Click, %qxPos%, %qyPos%
+			clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
 			delay()
 		}
-		waitForColor(0x00FFDD)
-		foundPOS()
+		waitForColor(tunnel)
+		clickPos(posX, posY)
 		sleep, 3000
 	}
 }
 
-
-; 		=== Action Functions ===
-
-; 		=== Utility Functions ===
-savePosQ(){
-	MouseGetPos, qxPos, qyPos
-}
-foundPOS(){
-	modY := posY + 15
-	Click, %posX%, %modY%
-}
-colorExists(hexCode){
-	WinRestore, %Title%
-	WinActivate, %Title%
-	PixelSearch, posX, posY, 5, 30, %gameBoxX%, %gameBoxY%, %hexCode%, 1, Fast RGB
-	return (ErrorLevel == 0)
-}
-waitForColor(hexCode){
-	loop {
-		WinRestore, %Title%
-		WinActivate, %Title%
-		PixelSearch, posX, posY, 5, 30, %gameBoxX%, %gameBoxY%, %hexCode%, 1, Fast RGB
-		if (ErrorLevel == 0)
-			break
-		Sleep, 500
-	}
-}
-delay(min := 240, max := 440){
-    Random, delay, %min%, %max%
-    Sleep, delay
-}
-; 		=== Setup Functions ===
-setUpClient(){
-	SysGet, res, MonitorWorkArea
-	SetTitleMatchMode, 2
-	Title := "RuneLite"
-	GetClientSize(WinExist(Title), wcW, wcH)
-	gameBoxX := wcW - 526
-	gameBoxY := wcH - 32
-}
-GetClientSize(hWnd, ByRef w := "", ByRef h := ""){
-	VarSetCapacity(rect, 16)
-	DllCall("GetClientRect", "ptr", hWnd, "ptr", &rect)
-	w := NumGet(rect, 8, "int")
-	h := NumGet(rect, 12, "int")
-}
 startUp(){
 	MsgBox, 1, LarkenAHK,
 	(
