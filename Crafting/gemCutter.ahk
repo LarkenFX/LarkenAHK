@@ -10,7 +10,7 @@ SetWorkingDir %A_ScriptDir%
 initLog()
 
 ; === Global Variables ===
-global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull
+global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull, gemType
 
 ; === Coordinate Modes ===
 SendMode, Input
@@ -19,9 +19,10 @@ CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
 ; === Script Guide ===
-; LarkenAHK's Battlestaff Maker Script.
+; LarkenAHK's Gem Cutting Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
-; Start Script with ORBS and STAFFS in inventory
+; Lock Chisel inventory spot in bank settings
+; Start Script with uncut gems in inventory
 ; === NO HOTKEYS ARE NEEDED FOR THIS SCRIPT ===
 
 ; === Hotkeys ===
@@ -36,44 +37,44 @@ main() {
     Sleep, 1000
     bagX := 1074
     bagY := 568
-    global bank := 0x485DFF
-    global tradeWindow := 0xFF981F
+    bank := 0x485DFF
+    tradeWindow := 0xFF981F
     checkStatus()
     Loop {
-        waitForColor(bank)
-        clickPos(posX, posY)
-        waitForColor(tradeWindow)
-        findGameImage("deposit")
-        findGameImage(orbType)
-        delay(55,105)
-        findGameImage("staff")
-        delay()
         Send, {Esc}
-        findInvImage(orbType)
-        findInvImage("staff")
-        while(!existsGameImage("craftMenu")){
+        findInvImage("chisel")
+        findInvImage(gemType)
+        while (!existsGameImage("craftMenu")){
             delay()
         }
         Send, {Space}
-        while(existsInvImage(orbType)){
+        while (existsInvImage(gemType)){
             delay()
         }
+        waitForColor(bank)
+        clickPos(posX, posY)
+        while (!colorExists(tradeWindow)){
+            delay()
+        }
+        findGameImage("deposit")
+        findGameImage(gemType)
+        delay(80,220)
     }
 }
 
 checkStatus(){
-    ;=== Check what type of ORB being used ===
-    orbType := ""
-    orbImages := ["airOrb", "waterOrb", "earthOrb", "fireOrb"]
+    ;=== Check what type of GEM being used ===
+    gemType := ""
+    gemImages := ["sapp(U)", "emer(U)", "ruby(U)", "diam(U)", "dstone(U)", "opal(U)", "jade(U)", "topaz(U)"]
 
-    for _, orb in orbImages{
-        if (existsInvImage(orb)){
-            orbType := orb
+    for _, gem in gemImages{
+        if (existsInvImage(gem)){
+            gemType := gem
             break
         }
     }
-    if (orbType := ""){
-        MsgBox, 16, ERROR, No suitable Orbs found! Check Orb images or Restart with Orbs in inventory
+    if (gemType := ""){
+        MsgBox, 16, ERROR, No suitable Gems found! Check Gem images or Restart with Gems in inventory
         Reload
     }
 }

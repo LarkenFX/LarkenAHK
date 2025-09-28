@@ -10,7 +10,7 @@ SetWorkingDir %A_ScriptDir%
 initLog()
 
 ; === Global Variables ===
-global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull
+global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull, barType
 
 ; === Coordinate Modes ===
 SendMode, Input
@@ -19,9 +19,11 @@ CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 
 ; === Script Guide ===
-; LarkenAHK's Battlestaff Maker Script.
+; LarkenAHK's Anvil AIO Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
-; Start Script with ORBS and STAFFS in inventory
+; Set Withdraw X to 25 for platebodies, Withdraw All for anything else.
+; Start Script with choice of bars in inventory & make atleast 1 of what you're smithing per login!
+; Lock hammer inventory spot in bank settings.
 ; === NO HOTKEYS ARE NEEDED FOR THIS SCRIPT ===
 
 ; === Hotkeys ===
@@ -36,44 +38,46 @@ main() {
     Sleep, 1000
     bagX := 1074
     bagY := 568
-    global bank := 0x485DFF
-    global tradeWindow := 0xFF981F
+    anvil := 0xF25999
+    bank := 0x485DFF
+    tradeWindow := 0xFF981F
     checkStatus()
     Loop {
-        waitForColor(bank)
-        clickPos(posX, posY)
-        waitForColor(tradeWindow)
-        findGameImage("deposit")
-        findGameImage(orbType)
-        delay(55,105)
-        findGameImage("staff")
-        delay()
         Send, {Esc}
-        findInvImage(orbType)
-        findInvImage("staff")
-        while(!existsGameImage("craftMenu")){
+        waitForColor(anvil)
+        clickPos(posX, posY)
+        while (!existsGameImage("smithMenu")){
             delay()
         }
         Send, {Space}
-        while(existsInvImage(orbType)){
+        delay()
+        while (existsInvImage(barType)){
             delay()
         }
+        waitForColor(bank)
+        clickPos(posX, posY)
+        while (!colorExists(tradeWindow)){
+            delay()
+        }
+        findGameImage("deposit")
+        findGameImage(barType)
+        delay(80,250)
     }
 }
 
 checkStatus(){
-    ;=== Check what type of ORB being used ===
-    orbType := ""
-    orbImages := ["airOrb", "waterOrb", "earthOrb", "fireOrb"]
+    ;=== Check what type of bar being used ===
+    barType := ""
+    barImages := ["runeBar", "addyBar", "mithBar", "steelBar"]
 
-    for _, orb in orbImages{
-        if (existsInvImage(orb)){
-            orbType := orb
+    for _, bar in barImages{
+        if (existsInvImage(bar)){
+            barType := bar
             break
         }
     }
-    if (orbType := ""){
-        MsgBox, 16, ERROR, No suitable Orbs found! Check Orb images or Restart with Orbs in inventory
+    if (barType := ""){
+        MsgBox, 16, ERROR, No suitable Bars found! Check bar images or Restart with bars in inventory
         Reload
     }
 }
