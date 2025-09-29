@@ -21,6 +21,9 @@ CoordMode, Mouse, Client
 ; === Script Guide ===
 ; LarkenAHK's Glassblowing Script.
 ; -Use the provided RuneLite profile & set game size to 1270x830 in RuneLite plugin, REQUIRED.
+; Start script after making 1 of desired glass
+; Mark any bank FF485DFF
+; === NO HOTKEYS ARE NEEDED ===
 
 ; === Hotkeys ===
 ^p::Pause, Toggle         ; Ctrl+P = Pause
@@ -37,13 +40,12 @@ main() {
     global bank := 0x485DFF
     global tradeWindow := 0xFF981F
     Loop {
-        ToolTip, TEMPLATE SCRIPT RUNNING..., 0, 5, 1
         waitForColor(bank)
         clickPos(posX, posY)
         waitForColor(tradeWindow)
         findGameImage("deposit")
-        clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
-        delay()
+        findGameImage("glass")
+        delay(50,200)
         Send, {Esc}
         findInvImage("pipe")
         findInvImage("glass")
