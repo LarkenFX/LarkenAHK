@@ -39,8 +39,7 @@ crabFight(){
 		while (!colorExists(crab)){
 			delay()
 		}
-		waitForColor(fightTile)
-		clickMiddle(fightTile)
+		clickMiddle(crab)
 		while(colorExists(crab)){
 			ToolTip, Fighting Crab..., 0, 5, 1
 			Sleep, 30000
@@ -55,8 +54,7 @@ crabFight(){
 			clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
 			delay()
 		}
-		waitForColor(tunnel)
-		clickPos(posX, posY)
+		clickMiddle(tunnel)
 		sleep, 3000
 	}
 }

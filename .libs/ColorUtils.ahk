@@ -1,19 +1,37 @@
 ; ==== ColorUtils.ahk ====
+#Include %A_ScriptDir%\..\.libs\GDIP_Utils.ahk
 
+; === Color Checks ===
 colorExists(hexCode) {
     global posX, posY, gameBoxX, gameBoxY
     focusClient()
     PixelSearch, posX, posY, 5, 30, %gameBoxX%, %gameBoxY%, %hexCode%, 1, Fast RGB
     return (ErrorLevel == 0)
 }
-
+searchInv(hexCode){
+	global posX, posY
+	bagX2 := gameBoxX + 210
+	bagY2 := gameBoxY - 15
+	focusClient()
+	PixelSearch, posX, posY, %bagX%, %bagY%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
+	return !ErrorLevel
+}
+checkInvFull(hexCode){
+	global invFull
+	bagX1 := gameBoxX + 175
+	bagY1 := gameBoxY - 45
+	bagX2 := gameBoxX + 210
+	bagY2 := gameBoxY - 15
+    focusClient()
+	PixelSearch, posX, posY, %bagX1%, %bagY1%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
+	invFull := (ErrorLevel == 0) ? 1 : 0
+}
 checkInfobox(hexCode, X := 135, Y := 70){
 	global posX, posY
 	focusClient()
 	PixelSearch, posX, posY, 5, 30, %X%, %Y%, %hexCode%, 1, Fast RGB
 	return (ErrorLevel == 0)
 }
-
 waitForColor(hexCode) {
     global posX, posY, gameBoxX, gameBoxY
     loop {
@@ -25,6 +43,7 @@ waitForColor(hexCode) {
     }
 }
 
+; === Image Checks ===
 findInvImage(imageName){
 	global ix, iy, bagX, bagY
 	focusClient()
@@ -91,7 +110,6 @@ existsGameImage(imageName){
 		return false
 	}
 }
-
 findMapImage(imageName){
 	global ix, iy, gameBoxX, gameBoxY
 	focusClient()
@@ -116,25 +134,7 @@ findMapImage(imageName){
 	}
 }
 
-checkInvFull(hexCode){
-	global invFull
-	bagX1 := gameBoxX + 175
-	bagY1 := gameBoxY - 45
-	bagX2 := gameBoxX + 210
-	bagY2 := gameBoxY - 15
-    focusClient()
-	PixelSearch, posX, posY, %bagX1%, %bagY1%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
-	invFull := (ErrorLevel == 0) ? 1 : 0
-}
-
-searchInv(hexCode){
-	global posX, posY
-	bagX2 := gameBoxX + 210
-	bagY2 := gameBoxY - 15
-	focusClient()
-	PixelSearch, posX, posY, %bagX%, %bagY%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
-	return !ErrorLevel
-}
+; === Utility ===
 dropAll(hexCode) {
 	global StartX, StartY, slotW, slotH, cols, rows
     ; Inventory position and slot size
@@ -199,7 +199,6 @@ radSearch(hexCode, centerX := 640, centerY := 440, maxRadius := 400, step := 10,
 	}
 	return false
 }
-
 clickMiddle(hexCode) {
     global gameBoxX, gameBoxY
     focusClient()
