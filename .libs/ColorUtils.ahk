@@ -16,6 +16,14 @@ searchInv(hexCode){
 	PixelSearch, posX, posY, %bagX%, %bagY%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
 	return !ErrorLevel
 }
+colorExistsInv(hexCode){
+	global posX, posY
+	bagX2 := gameBoxX + 210
+	bagY2 := gameBoxY - 15
+	focusClient()
+	PixelSearch, posX, posY, %bagX%, %bagY%, %bagX2%, %bagY2%, %hexCode%, 1, Fast RGB
+	return (ErrorLevel == 0)
+}
 checkInvFull(hexCode){
 	global invFull
 	bagX1 := gameBoxX + 175
