@@ -10,7 +10,7 @@ SetWorkingDir %A_ScriptDir%
 initLog()
 
 ; === Global Variables ===
-global posX, posY, gameBoxX, gameBoxY, bagX, bagY, Title, invFull, gemType
+global posX, posY, ix, iy, gameBoxX, gameBoxY, bagX, bagY, Title, invFull, gemType, cutGemType
 
 ; === Coordinate Modes ===
 SendMode, Input
@@ -40,8 +40,9 @@ main() {
     bank := 0x485DFF
     tradeWindow := 0xFF981F
     checkStatus()
+    log("Current cut gem is " . gemType . "+" . cutGemType)
     Loop {
-        Send, {Esc}
+        ;Send, {Esc}
         findInvImage("chisel")
         findInvImage(gemType)
         while (!existsGameImage("craftMenu")){
@@ -51,30 +52,47 @@ main() {
         while (existsInvImage(gemType)){
             delay()
         }
-        waitForColor(bank)
-        clickPos(posX, posY)
-        while (!colorExists(tradeWindow)){
+        dropAllImages(cutGemType)
+        clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
+        clickMiddle(bank)
+        while (!existsGameImage("confirm")){
             delay()
         }
-        findGameImage("deposit")
-        findGameImage(gemType)
-        delay(80,220)
+        Send, {1}
+        ;while (!colorExists(tradeWindow)){
+        ;    delay()
+        ;}
+        ;findGameImage("deposit")
+        ;findGameImage(gemType)
+        ;delay(80,220)
     }
 }
 
 checkStatus(){
     ;=== Check what type of GEM being used ===
     gemType := ""
+    cutGemType := ""
     gemImages := ["sapp(U)", "emer(U)", "ruby(U)", "diam(U)", "dstone(U)", "opal(U)", "jade(U)", "topaz(U)"]
-
+    cutImages := ["sapp", "emer", "ruby", "diam"]
     for _, gem in gemImages{
         if (existsInvImage(gem)){
             gemType := gem
             break
         }
     }
-    if (gemType := ""){
+    for _, cutGem in cutImages{
+        if (existsInvImage(cutGem)){
+            cutGemType := cutGem
+            break
+        }
+    }
+    if (gemType == ""){
         MsgBox, 16, ERROR, No suitable Gems found! Check Gem images or Restart with Gems in inventory
         Reload
     }
+    if (cutGemType == ""){
+        MsgBox, 16, ERROR, No suitable Gems found! Check Gem images or Restart with Gems in inventory
+        Reload
+    }
+    log("Checked Gem Types.")
 }

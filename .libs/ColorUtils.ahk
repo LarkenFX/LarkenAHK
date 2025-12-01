@@ -63,7 +63,7 @@ findInvImage(imageName){
 	bagX2 := bagX + 167
 	bagY2 := bagY + 250
 	ImageSearch, ix, iy, %bagX%, %bagY%, %bagX2%, %bagY2%, *20 %imagePath%
-	if (ErrorLevel = 0) {
+	if (ErrorLevel == 0) {
 		clickPos(ix, iy)
 		return true
 	}else{
@@ -81,7 +81,7 @@ existsInvImage(imageName){
 	bagX2 := bagX + 167
 	bagY2 := bagY + 250
 	ImageSearch, ix, iy, %bagX%, %bagY%, %bagX2%, %bagY2%, *20 %imagePath%
-	if (ErrorLevel = 0) {
+	if (ErrorLevel == 0) {
 		return true
 	}else{
 		return false
@@ -96,7 +96,7 @@ findGameImage(imageName){
 		return
 	}
 	ImageSearch, ix, iy, 5, 30, %gameBoxX%, %gameBoxY%, *20 %imagePath%
-	if (ErrorLevel = 0) {
+	if (ErrorLevel == 0) {
 		clickPos(ix, iy)
 		return true
 	}else{
@@ -112,7 +112,7 @@ existsGameImage(imageName){
 		return
 	}
 	ImageSearch, ix, iy, 5, 30, %gameBoxX%, %gameBoxY%, *20 %imagePath%
-	if (ErrorLevel = 0) {
+	if (ErrorLevel == 0) {
 		return true
 	}else{
 		return false
@@ -132,7 +132,7 @@ findMapImage(imageName){
 	x2 := gameBoxX + 250
 	y2 := gameBoxY - 600
 	ImageSearch, ix, iy, %x1%, %y1%, %x2%, %y2%, *40 %imagePath%
-	if (ErrorLevel = 0) {
+	if (ErrorLevel == 0) {
 		log("Found compass at " . ix . ", " . iy)
 		clickPos(ix, iy)
 		return true
@@ -166,6 +166,47 @@ dropAll(hexCode) {
                 MouseMoveL(px + 5, py + 5, 10, 2)
                 Click
                 Sleep, 110  ; mimic human timing
+            }
+        }
+    }
+}
+dropAllImages(imageName) {
+    global StartX, StartY, slotW, slotH, cols, rows
+    ; === Inventory grid settings ===
+    startX := 1074
+    startY := 568
+    slotW := 42
+    slotH := 36
+    cols := 4
+    rows := 7
+    rowOrder := shuffleRows()
+    focusClient()
+    ; === Image setup ===
+    imagePath := A_ScriptDir . "\..\.images\" . imageName . ".png"
+    if !FileExist(imagePath) {
+        log("dropAllImages: Missing image " . imagePath)
+        return
+    }
+    halfW := 11
+    halfH := 11
+    for i, row in rowOrder {
+        Loop, %cols% {
+            col := A_Index - 1
+            ; Center point of the inventory slot
+            x := startX + col * slotW + slotW // 2
+            y := startY + row * slotH + slotH // 2
+            ; Define search area around slot center
+            x1 := x - halfW
+            y1 := y - halfH
+            x2 := x + halfW
+            y2 := y + halfH
+            ; Search for the image in the slot region
+            ImageSearch, px, py, %x1%, %y1%, %x2%, %y2%, *20 %imagePath%
+            if (ErrorLevel == 0) {
+                log("dropAllImages: Found " . imageName . " at " . px . ", " . py)
+                MouseMoveL(px + 5, py + 5, 10, 2)
+                Click
+                delay(20,80)
             }
         }
     }

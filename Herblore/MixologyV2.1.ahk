@@ -29,7 +29,7 @@ test(){
         for index, slot in potionSlots {
             detectedColor := ""
             for _, clr in colors {
-                imagePath := A_ScriptDir . "\images\" . clr . ".png"
+                imagePath := A_ScriptDir . "\..\.images\" . clr . ".png"
                 if !FileExist(imagePath) {
                     log("Missing color image: " . imagePath)
                     continue
@@ -48,23 +48,23 @@ test(){
             potionColors.push(detectedColor)
         }
         ; Determine if all use Mox
-        allMox := true
+        ;allMox := true
         for _, color in potionColors {
-            if !InStr("MMM,MML,MMA", color) {
-                allMox := false
-                break
-            }
-        }
+        ;    if !InStr("MMM,MML,MMA", color) {
+        ;        allMox := false
+        ;        break
+        ;    }
+        ;}
         ;log("Only Mox pots - " . allMox)
         ; Process potions, skipping Mox unless all use Mox then just do 1 pot
-        for index, color in potionColors {
-            if (InStr("MMM,MML,MMA", color) && !allMox) {
-                ;log("Potion #" . index . " is a Mox")
-                continue
-            }
-            if (allMox && index > 1){
-                continue
-            }
+        ;for index, color in potionColors {
+        ;    if (InStr("MMM,MML,MMA", color) && !allMox) {
+        ;        log("Potion #" . index . " is a Mox")
+        ;        continue
+        ;    }
+        ;    if (allMox && index > 1){
+        ;       continue
+        ;    }
 
         ToolTip, Mixing Potion %index% (%color%)..., 0, 0, 1
         ; Pull levers to mix potions according to its name

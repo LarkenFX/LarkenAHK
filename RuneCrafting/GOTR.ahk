@@ -38,33 +38,39 @@ main() {
     craftTable := 0xF25999
     guardian := 0xFF00FF
     agil := 0x92C550
-    agil2 := 0x8A50C5
+    agil2 := 0xC8A5ED
     mine := 0x54DBAF
     statue := 0x33FF99
     portal := 0x485DFF
     altar := 0xC74949
     ess := 0x7D00FF
     xpDrop := 0x7D00FF
-    repair := 3
+    repair := 2
     craftTicks := 0
     Loop {
+        craftTicks := 0
+        invFull := 0
         checkState()
         while (!existsGameImage("gotrStart")){
             delay()
         }
         clickMiddle(mine)
-        delay(150000,155000)
+        delay(155000,165000)
         clickMiddle(agil2)
-        delay(5800,6300)
+        delay(6300,6400)
         clickMiddle(craftTable)
         while (invFull == 0 && gameState == 1){
             Sleep, 200
             craftTicks++
             ToolTip, %craftTicks%, 0,5,1
             checkInvFull(ess)
-            if (craftTicks == 27){
+            if (craftTicks == 25){
                 findInvImage("largePouch")
                 findInvImage("medPouch")
+                clickMiddle(craftTable)
+            }
+            if (craftTicks == 35){
+                findInvImage("giantPouch")
                 clickMiddle(craftTable)
             }
             checkState()
@@ -91,18 +97,27 @@ main() {
             findInvImage("largePouch")
             findInvImage("medPouch")
             clickMiddle(altar)
-            delay(80,200)
+            findInvImage("giantPouch")
+            clickMiddle(altar)
             clickMiddle(portal)
+            checkState()
             while (!colorExists(guardian)){
                 delay(50,160)
-                checkState()
             }
             if (gameState == 0){
-                clickMiddle(guardian)
+                waitForColor(guardian)
+                clickPos(posX, posY)
+                delay(6000,8000)
                 break
             }
             clickMiddle(0x0000FF)
             delay(2600,2800)
+            checkState()
+            if (gameState == 0){
+                waitForColor(guardian)
+                clickPos(posX, posY)
+                break
+            }
             clickMiddle(craftTable)
             craftTicks := 0
             while (invFull == 0 && gameState == 1){
@@ -114,9 +129,14 @@ main() {
                     findInvImage("medPouch")
                     clickMiddle(craftTable)
                 }
+                if (craftTicks == 28){
+                    findInvImage("giantPouch")
+                    clickMiddle(craftTable)
+                }
                 checkState()
             }
-            clickMiddle(guardian)
+            waitForColor(guardian)
+            clickPos(posX, posY)
             while (!colorExists(xpDrop)){
                 delay(50,160)
                 checkState()
@@ -126,7 +146,7 @@ main() {
             delay()
         }
         repair++
-        if (repair > 3){
+        if (repair > 1){
             Send, e
             delay()
             findInvImage("npcContact")
@@ -145,7 +165,7 @@ main() {
             repair := 0
         }
         clickMiddle(agil)
-        delay()
+        delay(8000,11000)
         Send, q
     }
 }

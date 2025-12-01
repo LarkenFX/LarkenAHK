@@ -38,11 +38,13 @@ crabFight(){
 	loop{
 		while (!colorExists(crab)){
 			delay()
+			relogCheck()
 		}
 		clickMiddle(crab)
 		while(colorExists(crab)){
 			ToolTip, Fighting Crab..., 0, 5, 1
 			Sleep, 30000
+			relogCheck()
 		}
 		ToolTip, Crab is dead..., 0, 5, 1
 		;=== if using Dragon Battleaxe specs ===
@@ -54,6 +56,7 @@ crabFight(){
 			clickPos(mPos["Q"].x,mPos["Q"].y, 2, 2)
 			delay()
 		}
+		relogCheck()
 		clickMiddle(tunnel)
 		sleep, 3000
 	}

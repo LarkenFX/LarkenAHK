@@ -24,8 +24,12 @@ focusClient() {
 
 relogCheck() {
     global ix, iy
-    if existsGameImage("playNow"){
-        clickPos(ix, iy)
+    if (existsGameImage("loginOK")){
+        findGameImage("loginOK")
+    }
+    delay()
+    if (existsGameImage("playNow")){
+        findGameImage("playNow")
         while (!existsGameImage("clickHere")){
             delay(4000,10000)
         }

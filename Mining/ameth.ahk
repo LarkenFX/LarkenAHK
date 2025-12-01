@@ -26,7 +26,7 @@ CoordMode, Mouse, Client
 ^p::Pause, Toggle         ; Ctrl+P = Pause
 ^q::saveMousePos("Q")     ; Ctrl+Q = Save mouse position (mPos["Q"].x,mPos["Q"].y)
 ^w::saveMousePos("W")     ; Ctrl+W = Save mouse position (mPos["W"].x,mPos["W"].y)
-+1::main()                ; Shift+1 = Run script
+Tab::main()                ; Shift+1 = Run script
 
 ; === Main Script ===
 main() {
@@ -45,7 +45,11 @@ main() {
             checkInvFull(ameth)                ; 
             if (!isMining && !invFull) {
                 log("Not mining & inventory not full")
+                Send, {Shift Down}
+                delay()
                 cleanInventory()
+                delay()
+                Send, {ShiftUp}
                 waitForColor(rocks)
                 clickPos(posX, posY)
                 Sleep, 3000
@@ -69,10 +73,11 @@ main() {
 }
 
 cleanInventory() {
-    global gems
-    log("Checking for gems to drop...")
-    while(searchInv(gems)){
-        clickPos(posX, posY)
-        delay(600, 800)
+    ;=== Check what type of GEM being used ===
+    gemImages := ["sapp(U)", "emer(U)", "ruby(U)", "diam(U)"]
+    for _, gem in gemImages{
+        if (existsInvImage(gem)){
+            dropAllImages(gem)
+        }
     }
 }
